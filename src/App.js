@@ -12,7 +12,6 @@ import { ButtonsContainer, AddressContainer } from "components";
 function App() {
   const dispatch = useDispatch();
   const wallet = useSelector(selectWallet);
-  console.log(wallet);
 
   const [address, setAddress] = useState(0);
 
@@ -30,7 +29,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAllWallets(walletList));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Styles.Wrapper className="App">
@@ -38,8 +37,7 @@ function App() {
         handleAddAdress={() => handleAddAdress()}
         handleRemoveAdress={() => handleRemoveAdress()}
       />
-      <AddressContainer address={address} />
-      {address}
+      <AddressContainer address={address} wallet={wallet} />
     </Styles.Wrapper>
   );
 }
