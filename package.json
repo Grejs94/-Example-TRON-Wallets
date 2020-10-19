@@ -32,5 +32,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-query": "^2.23.1",
+    "styled-components": "^5.2.0"
   }
 }

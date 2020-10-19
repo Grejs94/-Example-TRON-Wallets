@@ -1,55 +1,46 @@
-import React from "react";
-import { Counter } from "./features/counter/Counter";
-import "./App.css";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { selectWallet, fetchAllWallets } from "features/wallet/walletSlice";
+
+import { walletList } from "assets";
+
+import * as Styles from "./styles";
+
+import { ButtonsContainer, AddressContainer } from "components";
 
 function App() {
+  const dispatch = useDispatch();
+  const wallet = useSelector(selectWallet);
+  console.log(wallet);
+
+  const [address, setAddress] = useState(0);
+
+  const handleAddAdress = () => {
+    if (address < wallet.length) {
+      setAddress(address + 1);
+    }
+  };
+
+  const handleRemoveAdress = () => {
+    if (address > 0) {
+      setAddress(address - 1);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllWallets(walletList));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Styles.Wrapper className="App">
+      <ButtonsContainer
+        handleAddAdress={() => handleAddAdress()}
+        handleRemoveAdress={() => handleRemoveAdress()}
+      />
+      <AddressContainer address={address} />
+      {address}
+    </Styles.Wrapper>
   );
 }
 
