@@ -1,24 +1,22 @@
 import React from "react";
-
-import * as Styles from "./styles";
+import { useSelector } from "react-redux";
 
 import { Address } from "./components";
 
-const AddressContainer = ({ address, wallet }) => {
-  let workingWallet = wallet;
-  const number = wallet.length - address;
+import * as Styles from "./styles";
 
-  const newWallet = workingWallet.slice(number, wallet.length);
+import { selectAddresses } from "features/addresses/addressesSlice";
 
-  console.log(newWallet);
+const AddressContainer = () => {
+  const addressesArray = useSelector(selectAddresses);
 
-  const AdressesList = newWallet.map((element) => (
-    <Address key={element.address}>{element.address}</Address>
+  const AdressesList = addressesArray.map((item) => (
+    <Address key={item}>{item}</Address>
   ));
 
   return (
     <Styles.Wrapper>
-      <Styles.P>Adresses in base58 format:</Styles.P>
+      <Styles.P>Adresses:</Styles.P>
       {AdressesList}
     </Styles.Wrapper>
   );
