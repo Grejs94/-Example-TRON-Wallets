@@ -1,21 +1,55 @@
 import React, { useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 
 import * as Styles from "./styles";
 
-import { addAddress } from "features/addresses/addressesSlice";
+import API from "API";
+import {
+  selectValidatedSuccess,
+  selectMessage,
+  selectAddresses,
+  addAddress,
+  setMessageSuccess,
+  setMessageFailed,
+  setMessagerepeats,
+} from "features/addresses/addressesSlice";
 
 const FormComponent = () => {
   const [id, setId] = useState(0);
   const dispatch = useDispatch();
+  const message = useSelector(selectMessage);
+  const validatedStatus = useSelector(selectValidatedSuccess);
+  const addresses = useSelector(selectAddresses);
+
+  const validateAddress = async (values) => {
+    const wallet = await API.wallet.fetchWallet(values.address);
+    if (wallet.create_time) {
+      let walletAllreadyAdded = false;
+      const workingAddresses = addresses;
+      workingAddresses.forEach((element) => {
+        if (element.address === wallet.address) {
+          walletAllreadyAdded = true;
+        }
+      });
+
+      if (walletAllreadyAdded) {
+        dispatch(setMessagerepeats());
+      } else {
+        const newValues = { ...values, id };
+        dispatch(setMessageSuccess());
+        dispatch(addAddress(newValues));
+        setId(id + 1);
+      }
+    } else {
+      dispatch(setMessageFailed());
+    }
+  };
 
   const onSubmit = (values) => {
-    const newValues = { ...values, id };
     if (values.address) {
-      dispatch(addAddress(newValues));
-      setId(id + 1);
+      validateAddress(values);
     }
   };
 
@@ -47,6 +81,13 @@ const FormComponent = () => {
 
             <Styles.Button type="submit">Add address</Styles.Button>
           </Styles.FormContainer>
+          <Styles.ValidationContainer>
+            <Styles.ValidationMessage
+              successColor={validatedStatus ? "success" : null}
+            >
+              {message}
+            </Styles.ValidationMessage>
+          </Styles.ValidationContainer>
         </form>
       )}
     />

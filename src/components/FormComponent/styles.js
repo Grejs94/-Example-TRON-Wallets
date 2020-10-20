@@ -10,3 +10,11 @@ export const Button = styled.button`
   margin-left: 10px;
   padding: 4px 8px;
 `;
+
+export const ValidationContainer = styled.div`
+  min-height: 24px;
+`;
+
+export const ValidationMessage = styled.p`
+  color: ${(props) => (props.successColor ? "green" : "red")};
+`;
