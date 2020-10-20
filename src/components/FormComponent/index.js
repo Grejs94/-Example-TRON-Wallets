@@ -47,6 +47,11 @@ const FormComponent = () => {
 
             <Styles.Button type="submit">Add address</Styles.Button>
           </Styles.FormContainer>
+          <Styles.ValidationContainer>
+            <Styles.ValidationMessage>
+              Validation message !!!
+            </Styles.ValidationMessage>
+          </Styles.ValidationContainer>
         </form>
       )}
     />
