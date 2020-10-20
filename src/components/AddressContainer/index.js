@@ -10,9 +10,13 @@ import { selectAddresses } from "features/addresses/addressesSlice";
 const AddressContainer = () => {
   const addressesArray = useSelector(selectAddresses);
 
-  const AdressesList = addressesArray.map((item) => (
-    <Address key={item}>{item}</Address>
-  ));
+  const AdressesList = addressesArray.map((item) => {
+    return (
+      <Address id={item.id} key={item.id}>
+        {item.address}
+      </Address>
+    );
+  });
 
   return (
     <Styles.Wrapper>
