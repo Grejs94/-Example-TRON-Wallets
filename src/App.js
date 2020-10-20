@@ -1,12 +1,13 @@
 import React from "react";
 
-import * as Styles from "./styles";
+import { AddressContainer, FormComponent, Board } from "components";
 
-import { AddressContainer, FormComponent } from "components";
+import * as Styles from "./styles";
 
 function App() {
   return (
     <Styles.Wrapper className="App">
+      <Board />
       <FormComponent />
       <AddressContainer />
     </Styles.Wrapper>

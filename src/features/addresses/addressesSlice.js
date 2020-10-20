@@ -10,6 +10,9 @@ export const addressesSlice = createSlice({
     validatedSuccess: true,
   },
   reducers: {
+    clearAddress: (state) => {
+      state.addresses = [];
+    },
     addAddress: (state, action) => {
       const addresses = state.addresses;
       addresses.push(action.payload);
@@ -37,6 +40,7 @@ export const addressesSlice = createSlice({
 });
 
 export const {
+  clearAddress,
   addAddress,
   setAddresses,
   setMessageWhenValidationSucceded,
