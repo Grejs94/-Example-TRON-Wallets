@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import * as reducers from "features/addresses/addressesSlice";
+
 export const addressesSlice = createSlice({
   name: "addresses",
   initialState: {
@@ -34,8 +36,24 @@ export const addressesSlice = createSlice({
 export const {
   addAddress,
   setAddresses,
-  toggleValidationMessage,
+  setMessageWhenValidationSucceded,
+  setMessageWhenValidationFailed,
+  setCleanMessegesArguments,
 } = addressesSlice.actions;
+
+export const setMessageSuccess = () => (dispatch) => {
+  dispatch(reducers.setMessageWhenValidationSucceded());
+  setTimeout(() => {
+    dispatch(reducers.setCleanMessegesArguments());
+  }, 2000);
+};
+
+export const setMessageFailed = () => (dispatch) => {
+  dispatch(reducers.setMessageWhenValidationFailed());
+  setTimeout(() => {
+    dispatch(reducers.setCleanMessegesArguments());
+  }, 2000);
+};
 
 export const selectAddresses = (state) => state.addresses.addresses;
 
