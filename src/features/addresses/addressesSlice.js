@@ -7,7 +7,7 @@ export const addressesSlice = createSlice({
   initialState: {
     addresses: [],
     message: "",
-    validatedSuccess: "none",
+    validatedSuccess: true,
   },
   reducers: {
     addAddress: (state, action) => {
@@ -28,7 +28,6 @@ export const addressesSlice = createSlice({
     },
     setCleanMessegesArguments: (state) => {
       state.message = "";
-      state.validatedSuccess = "none";
     },
   },
 });

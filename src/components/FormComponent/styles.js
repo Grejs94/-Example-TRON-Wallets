@@ -16,5 +16,5 @@ export const ValidationContainer = styled.div`
 `;
 
 export const ValidationMessage = styled.p`
-  color: red;
+  color: ${(props) => (props.successColor ? "green" : "red")};
 `;
