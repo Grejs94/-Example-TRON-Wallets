@@ -15,6 +15,7 @@ import {
   setMessageFailed,
   setMessagerepeats,
 } from "features/addresses/addressesSlice";
+import { fetchAllWallets } from "features/wallets/walletsSlice";
 
 const FormComponent = () => {
   const [id, setId] = useState(0);
@@ -22,6 +23,10 @@ const FormComponent = () => {
   const message = useSelector(selectMessage);
   const validatedStatus = useSelector(selectValidatedSuccess);
   const addresses = useSelector(selectAddresses);
+
+  const handleFetchWallets = (addresses) => {
+    dispatch(fetchAllWallets(addresses));
+  };
 
   const validateAddress = async (values) => {
     const wallet = await API.wallet.fetchWallet(values.address);
@@ -80,6 +85,12 @@ const FormComponent = () => {
             </Field>
 
             <Styles.Button type="submit">Add address</Styles.Button>
+            <Styles.Button
+              type="button"
+              onClick={() => handleFetchWallets(addresses)}
+            >
+              Generate board
+            </Styles.Button>
           </Styles.FormContainer>
           <Styles.ValidationContainer>
             <Styles.ValidationMessage
