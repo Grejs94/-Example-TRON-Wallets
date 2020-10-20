@@ -9,9 +9,11 @@ import API from "API";
 import {
   selectValidatedSuccess,
   selectMessage,
+  selectAddresses,
   addAddress,
   setMessageSuccess,
   setMessageFailed,
+  setMessagerepeats,
 } from "features/addresses/addressesSlice";
 
 const FormComponent = () => {
@@ -19,33 +21,35 @@ const FormComponent = () => {
   const dispatch = useDispatch();
   const message = useSelector(selectMessage);
   const validatedStatus = useSelector(selectValidatedSuccess);
+  const addresses = useSelector(selectAddresses);
 
-  const showSuccess = () => {
-    dispatch(setMessageSuccess());
-  };
-
-  const showFailure = () => {
-    dispatch(setMessageFailed());
-  };
-
-  const validateAddress = async (values, showSuccess, showFailure) => {
-    console.log(values);
+  const validateAddress = async (values) => {
     const wallet = await API.wallet.fetchWallet(values.address);
-    // console.log(wallet.create_time);
     if (wallet.create_time) {
-      const newValues = { ...values, id };
+      let walletAllreadyAdded = false;
+      const workingAddresses = addresses;
+      workingAddresses.forEach((element) => {
+        if (element.address === wallet.address) {
+          walletAllreadyAdded = true;
+        }
+      });
 
-      showSuccess();
-      dispatch(addAddress(newValues));
-      setId(id + 1);
+      if (walletAllreadyAdded) {
+        dispatch(setMessagerepeats());
+      } else {
+        const newValues = { ...values, id };
+        dispatch(setMessageSuccess());
+        dispatch(addAddress(newValues));
+        setId(id + 1);
+      }
     } else {
-      showFailure();
+      dispatch(setMessageFailed());
     }
   };
 
   const onSubmit = (values) => {
     if (values.address) {
-      validateAddress(values, showSuccess, showFailure);
+      validateAddress(values);
     }
   };
 
