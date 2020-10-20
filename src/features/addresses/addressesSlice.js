@@ -19,11 +19,11 @@ export const addressesSlice = createSlice({
       state.addresses = action.payload;
     },
     setMessageWhenValidationSucceded: (state) => {
-      state.validationMessage = "Validation succeded!";
+      state.message = "Validation succeded!";
       state.validatedSuccess = true;
     },
     setMessageWhenValidationFailed: (state) => {
-      state.validationMessage = "Validation failed!";
+      state.message = "Validation failed!";
       state.validatedSuccess = false;
     },
     setCleanMessegesArguments: (state) => {
@@ -42,19 +42,23 @@ export const {
 } = addressesSlice.actions;
 
 export const setMessageSuccess = () => (dispatch) => {
+  console.log("sldkfj");
   dispatch(reducers.setMessageWhenValidationSucceded());
   setTimeout(() => {
     dispatch(reducers.setCleanMessegesArguments());
-  }, 2000);
+  }, 4000);
 };
 
 export const setMessageFailed = () => (dispatch) => {
   dispatch(reducers.setMessageWhenValidationFailed());
   setTimeout(() => {
     dispatch(reducers.setCleanMessegesArguments());
-  }, 2000);
+  }, 4000);
 };
 
 export const selectAddresses = (state) => state.addresses.addresses;
+export const selectValidatedSuccess = (state) =>
+  state.addresses.validatedSuccess;
+export const selectMessage = (state) => state.addresses.message;
 
 export default addressesSlice.reducer;

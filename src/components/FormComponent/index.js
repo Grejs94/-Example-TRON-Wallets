@@ -1,21 +1,49 @@
 import React, { useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 
 import * as Styles from "./styles";
 
-import { addAddress } from "features/addresses/addressesSlice";
+import API from "API";
+import {
+  selectValidatedSuccess,
+  selectMessage,
+  addAddress,
+  setMessageSuccess,
+  setMessageFailed,
+} from "features/addresses/addressesSlice";
+
+const validateAddress = async (values, showSuccess, showFailure) => {
+  console.log(values);
+  const wallet = await API.wallet.fetchWallet(values.address);
+  // console.log(wallet.create_time);
+  if (wallet.create_time) {
+    showSuccess();
+  } else {
+    showFailure();
+  }
+};
 
 const FormComponent = () => {
   const [id, setId] = useState(0);
   const dispatch = useDispatch();
+  const message = useSelector(selectMessage);
+
+  const showSuccess = () => {
+    dispatch(setMessageSuccess());
+  };
+
+  const showFailure = () => {
+    dispatch(setMessageFailed());
+  };
 
   const onSubmit = (values) => {
     const newValues = { ...values, id };
     if (values.address) {
       dispatch(addAddress(newValues));
       setId(id + 1);
+      validateAddress(values, showSuccess, showFailure);
     }
   };
 
@@ -48,9 +76,7 @@ const FormComponent = () => {
             <Styles.Button type="submit">Add address</Styles.Button>
           </Styles.FormContainer>
           <Styles.ValidationContainer>
-            <Styles.ValidationMessage>
-              Validation message !!!
-            </Styles.ValidationMessage>
+            <Styles.ValidationMessage>{message}</Styles.ValidationMessage>
           </Styles.ValidationContainer>
         </form>
       )}
