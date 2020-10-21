@@ -12,10 +12,17 @@ export const walletsSlice = createSlice({
     singlestatus: "iddle",
     data: [],
     sortedData: [],
+    sortedAscending: true,
   },
   reducers: {
+    toggleSortedAscending: (state) => {
+      state.sortedAscending = !state.sortedAscending;
+    },
     clearData: (state) => {
       state.data = [];
+    },
+    clearSortedData: (state) => {
+      state.sortedData = [];
     },
     fetchAllStarted: (state) => {
       state.allstatus = "inProgress";
@@ -38,17 +45,23 @@ export const walletsSlice = createSlice({
     fetchAllFailed: (state) => {
       state.allstatus = "failed";
     },
+    setSortedData: (state, action) => {
+      state.sortedData = action.payload;
+    },
   },
 });
 
 export const {
   clearData,
+  clearSortedData,
   fetchAllStarted,
   fetchSingleWalletStarted,
   fetchAllSucceded,
   fetchSingleSucceded,
   fetchAllFailed,
   fetchSingleFailed,
+  setSortedData,
+  toggleSortedAscending,
 } = walletsSlice.actions;
 
 export const fetchAllWallets = (addresses) => async (dispatch) => {
@@ -77,5 +90,6 @@ export const fetchSingleWallet = (wallet) => async (dispatch) => {
 export const selectWallets = (state) => state.wallets.data;
 export const selectWalletsSortedData = (state) => state.wallets.sortedData;
 export const selectWalletsAllStatus = (state) => state.wallets.allstatus;
+export const selectSortedAscending = (state) => state.wallets.sortedAscending;
 
 export default walletsSlice.reducer;

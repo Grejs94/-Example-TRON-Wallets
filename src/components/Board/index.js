@@ -18,7 +18,7 @@ const Board = () => {
   const wallets = useSelector(selectWallets);
   const walletsSorted = useSelector(selectWalletsSortedData);
 
-  const data = walletsSorted.lenght > 0 ? walletsSorted : wallets;
+  const data = walletsSorted.length > 0 ? walletsSorted : wallets;
 
   const CreateAddressesRows = () =>
     data.map((item) => {
