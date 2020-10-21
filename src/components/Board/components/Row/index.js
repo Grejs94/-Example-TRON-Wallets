@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   selectWallets,
-  selectWalletsSortedData,
   setSortedData,
+  selectWalletsFilterData,
   selectSortedAscending,
   toggleSortedAscending,
 } from "features/wallets/walletsSlice";
@@ -14,9 +14,11 @@ import { SortIcon } from "./components";
 
 const Row = ({ variant, propsArray = [] }) => {
   const data = useSelector(selectWallets);
-  const sortedData = useSelector(selectWalletsSortedData);
+  const filtredData = useSelector(selectWalletsFilterData);
   const sortedAscending = useSelector(selectSortedAscending);
   const dispatch = useDispatch();
+
+  const objectsList = filtredData.length > 0 ? filtredData : data;
 
   // TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK
   // TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws
@@ -24,7 +26,7 @@ const Row = ({ variant, propsArray = [] }) => {
   // TCFQhzJgXJnn56sqJV38H8c5YAwELZugvz
   // TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg
 
-  const sortWalletsByLatestOprationTime = (data, sortedAscending) => {
+  const sortWalletsByLatestOprationTime = (objectsList, sortedAscending) => {
     const sorted = [...data].sort((a, b) => {
       let fa = a.latest_opration_time;
       let fb = b.latest_opration_time;
@@ -51,7 +53,7 @@ const Row = ({ variant, propsArray = [] }) => {
     dispatch(toggleSortedAscending());
   };
 
-  const sortWalletsByCreateTime = (data, sortedAscending) => {
+  const sortWalletsByCreateTime = (objectsList, sortedAscending) => {
     const sorted = [...data].sort((a, b) => {
       let fa = a.create_time;
       console.log();
@@ -79,7 +81,7 @@ const Row = ({ variant, propsArray = [] }) => {
     dispatch(toggleSortedAscending());
   };
 
-  const sortWalletsByBalance = (data, sortedAscending) => {
+  const sortWalletsByBalance = (objectsList, sortedAscending) => {
     const sorted = [...data].sort((a, b) => {
       let fa = a.balance;
       let fb = b.balance;
@@ -106,7 +108,7 @@ const Row = ({ variant, propsArray = [] }) => {
     dispatch(toggleSortedAscending());
   };
 
-  const sortWalletsByAddresses = (data, sortedAscending) => {
+  const sortWalletsByAddresses = (objectsList, sortedAscending) => {
     const sorted = [...data].sort((a, b) => {
       let fa = a.address.toLowerCase();
       let fb = b.address.toLowerCase();
@@ -138,23 +140,29 @@ const Row = ({ variant, propsArray = [] }) => {
     {
       handleClick: () => {
         if (data.length > 1) {
-          sortWalletsByAddresses(data, sortedAscending);
+          sortWalletsByAddresses(objectsList, sortedAscending);
         }
       },
     },
     {
       handleClick: () => {
-        sortWalletsByBalance(data, sortedAscending);
+        if (data.length > 1) {
+          sortWalletsByBalance(objectsList, sortedAscending);
+        }
       },
     },
     {
       handleClick: () => {
-        sortWalletsByCreateTime(data, sortedAscending);
+        if (data.length > 1) {
+          sortWalletsByCreateTime(objectsList, sortedAscending);
+        }
       },
     },
     {
       handleClick: () => {
-        sortWalletsByLatestOprationTime(data, sortedAscending);
+        if (data.length > 1) {
+          sortWalletsByLatestOprationTime(objectsList, sortedAscending);
+        }
       },
     },
   ];

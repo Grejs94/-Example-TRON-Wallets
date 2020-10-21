@@ -12,6 +12,8 @@ export const walletsSlice = createSlice({
     singlestatus: "iddle",
     data: [],
     sortedData: [],
+    filterData: [],
+    filterString: [],
     sortedAscending: true,
   },
   reducers: {
@@ -48,6 +50,9 @@ export const walletsSlice = createSlice({
     setSortedData: (state, action) => {
       state.sortedData = action.payload;
     },
+    setFilterString: (state, action) => {
+      state.filterString = action.payload;
+    },
   },
 });
 
@@ -61,13 +66,13 @@ export const {
   fetchAllFailed,
   fetchSingleFailed,
   setSortedData,
+  setFilterString,
   toggleSortedAscending,
 } = walletsSlice.actions;
 
 export const fetchAllWallets = (addresses) => async (dispatch) => {
   dispatch(clearData());
   dispatch(fetchAllStarted());
-  dispatch(clearAddress());
 
   addresses.forEach((address) => {
     dispatch(Wallet.fetchSingleWallet(address.address));
@@ -89,6 +94,8 @@ export const fetchSingleWallet = (wallet) => async (dispatch) => {
 
 export const selectWallets = (state) => state.wallets.data;
 export const selectWalletsSortedData = (state) => state.wallets.sortedData;
+export const selectWalletsFilterData = (state) => state.wallets.filterData;
+export const selectWalletsFilterString = (state) => state.wallets.filterString;
 export const selectWalletsAllStatus = (state) => state.wallets.allstatus;
 export const selectSortedAscending = (state) => state.wallets.sortedAscending;
 
