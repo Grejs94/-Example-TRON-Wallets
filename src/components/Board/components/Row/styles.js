@@ -21,10 +21,14 @@ export const Div = styled.div`
   }
 `;
 
-export const Cell = styled.div``;
+export const Cell = styled.div`
+  display: flex;
+`;
 
 export const Span = styled.span`
   @media (max-width: 960px) {
     font-size: 10px;
   }
 `;
+
+export const SortIcon = styled.span``;

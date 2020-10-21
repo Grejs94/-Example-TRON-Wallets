@@ -11,6 +11,7 @@ export const walletsSlice = createSlice({
     allstatus: "iddle",
     singlestatus: "iddle",
     data: [],
+    sortedData: [],
   },
   reducers: {
     clearData: (state) => {
@@ -74,6 +75,7 @@ export const fetchSingleWallet = (wallet) => async (dispatch) => {
 };
 
 export const selectWallets = (state) => state.wallets.data;
+export const selectWalletsSortedData = (state) => state.wallets.sortedData;
 export const selectWalletsAllStatus = (state) => state.wallets.allstatus;
 
 export default walletsSlice.reducer;
