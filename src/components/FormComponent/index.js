@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import * as Styles from "./styles";
-
 import API from "API";
+
+import * as Styles from "./styles";
 import {
   selectValidatedSuccess,
   selectMessage,
@@ -14,6 +14,7 @@ import {
   setMessageSuccess,
   setMessageFailed,
   setMessagerepeats,
+  setMessageAddAddresses,
 } from "features/addresses/addressesSlice";
 import { fetchAllWallets } from "features/wallets/walletsSlice";
 
@@ -25,7 +26,11 @@ const FormComponent = () => {
   const addresses = useSelector(selectAddresses);
 
   const handleFetchWallets = (addresses) => {
-    dispatch(fetchAllWallets(addresses));
+    if (addresses.length < 1) {
+      dispatch(setMessageAddAddresses());
+    } else {
+      dispatch(fetchAllWallets(addresses));
+    }
   };
 
   const validateAddress = async (values) => {

@@ -36,6 +36,10 @@ export const addressesSlice = createSlice({
     setCleanMessegesArguments: (state) => {
       state.message = "";
     },
+    setMessegesWhenGenerateButNoAddressesAdded: (state) => {
+      state.message = "To generate board add addresses first!";
+      state.validatedSuccess = false;
+    },
   },
 });
 
@@ -46,6 +50,7 @@ export const {
   setMessageWhenValidationSucceded,
   setMessageWhenValidationFailed,
   setMessageWhenValidationRepeats,
+  setMessegesWhenGenerateButNoAddressesAdded,
   setCleanMessegesArguments,
 } = addressesSlice.actions;
 
@@ -65,6 +70,13 @@ export const setMessageFailed = () => (dispatch) => {
 
 export const setMessagerepeats = () => (dispatch) => {
   dispatch(reducers.setMessageWhenValidationRepeats());
+  setTimeout(() => {
+    dispatch(reducers.setCleanMessegesArguments());
+  }, 2000);
+};
+
+export const setMessageAddAddresses = () => (dispatch) => {
+  dispatch(reducers.setMessegesWhenGenerateButNoAddressesAdded());
   setTimeout(() => {
     dispatch(reducers.setCleanMessegesArguments());
   }, 2000);
