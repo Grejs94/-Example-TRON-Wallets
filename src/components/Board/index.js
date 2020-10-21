@@ -8,6 +8,7 @@ import * as Styles from "./styles";
 
 import {
   selectWallets,
+  selectWalletsSortedData,
   selectWalletsAllStatus,
 } from "features/wallets/walletsSlice";
 
@@ -15,30 +16,35 @@ const Board = () => {
   const walletsAllStatus = useSelector(selectWalletsAllStatus);
 
   const wallets = useSelector(selectWallets);
+  const walletsSorted = useSelector(selectWalletsSortedData);
+
+  const data = walletsSorted.lenght > 0 ? walletsSorted : wallets;
 
   const CreateAddressesRows = () =>
-    wallets.map((item) => (
-      <Row
-        key={item.address}
-        first={item.address ? item.address : "unnown"}
-        second={item.balance ? item.balance : "unnown"}
-        third={item.create_time ? item.create_time : "unnown"}
-        fourth={
-          item.latest_opration_time ? item.latest_opration_time : "unnown"
-        }
-      />
-    ));
+    data.map((item) => {
+      const propsArray = [
+        `${item.address ? item.address : "unnown"}`,
+        `${item.balance ? item.balance : "unnown"}`,
+        `${item.create_time ? item.create_time : "unnown"}`,
+        `${item.latest_opration_time ? item.latest_opration_time : "unnown"}`,
+      ];
+
+      return (
+        <Row
+          key={item.address}
+          propsArray={propsArray}
+          variant="Row with data"
+        />
+      );
+    });
 
   return walletsAllStatus === "succeded" ? (
     <Styles.Wrapper>
       <Styles.Title>Board</Styles.Title>
       <Styles.RowsContainer>
         <Row
-          first="address"
-          second="balance"
-          third="create_time"
-          fourth="latest_opration_time"
-          variant="title"
+          propsArray={["address", "balance", "created", "latest opr."]}
+          variant="Description row with filters"
         />
         <CreateAddressesRows />
       </Styles.RowsContainer>

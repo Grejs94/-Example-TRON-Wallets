@@ -2,34 +2,27 @@ import React from "react";
 
 import * as Styles from "./styles";
 
-const Row = ({ first, second, third, fourth, variant }) => {
-  const titleVariant = (
-    <Styles.Div>
-      <Styles.Cell>{first}</Styles.Cell>
-      <Styles.Cell>{second}</Styles.Cell>
-      <Styles.Cell>{third}</Styles.Cell>
-      <Styles.Cell>{fourth}</Styles.Cell>
-    </Styles.Div>
-  );
+import { SortIcon } from "./components";
 
-  const normalVariant = (
-    <Styles.Div>
-      <Styles.Cell>
-        <Styles.Span>{first}</Styles.Span>
-      </Styles.Cell>
-      <Styles.Cell>
-        <Styles.Span>{second}</Styles.Span>
-      </Styles.Cell>
-      <Styles.Cell>
-        <Styles.Span>{third}</Styles.Span>
-      </Styles.Cell>
-      <Styles.Cell>
-        <Styles.Span>{fourth}</Styles.Span>
-      </Styles.Cell>
-    </Styles.Div>
-  );
-
-  return variant ? titleVariant : normalVariant;
-};
+const Row = ({ variant, propsArray }) => (
+  <Styles.Div>
+    {propsArray
+      ? propsArray.map((singleProps) => (
+          <Styles.Cell key={singleProps}>
+            {variant === "Row with data" ? (
+              <Styles.Span>{singleProps}</Styles.Span>
+            ) : variant === "Description row with filters" ? (
+              <>
+                {singleProps}
+                <SortIcon />
+              </>
+            ) : (
+              ""
+            )}
+          </Styles.Cell>
+        ))
+      : ""}
+  </Styles.Div>
+);
 
 export default Row;
