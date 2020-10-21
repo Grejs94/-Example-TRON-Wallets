@@ -16,7 +16,10 @@ import {
   setMessagerepeats,
   setMessageAddAddresses,
 } from "features/addresses/addressesSlice";
-import { fetchAllWallets } from "features/wallets/walletsSlice";
+import {
+  fetchAllWallets,
+  clearSortedData,
+} from "features/wallets/walletsSlice";
 
 const FormComponent = () => {
   const [id, setId] = useState(0);
@@ -30,6 +33,7 @@ const FormComponent = () => {
       dispatch(setMessageAddAddresses());
     } else {
       dispatch(fetchAllWallets(addresses));
+      dispatch(clearSortedData());
     }
   };
 
