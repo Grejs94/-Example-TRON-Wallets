@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { Row } from "./components";
 import * as Styles from "./styles";
 import {
+  setData,
+  setSortedData,
   selectWallets,
   selectWalletsSortedData,
   selectWalletsFilterData,
-  selectWalletsFilterString,
   selectWalletsAllStatus,
-  setFilterString,
+  selectFilterStatus,
+  setFilterStatusTrue,
+  setFilterStatusFalse,
+  setFilterData,
 } from "features/wallets/walletsSlice";
 
 const Board = () => {
+  const [inputValue, setInputValue] = useState("");
+
   const dispatch = useDispatch();
   const walletsAllStatus = useSelector(selectWalletsAllStatus);
 
   const wallets = useSelector(selectWallets);
   const walletsSorted = useSelector(selectWalletsSortedData);
   const walletsFiltred = useSelector(selectWalletsFilterData);
-  const walletsFilterString = useSelector(selectWalletsFilterString);
+  const walletsFilterStatus = useSelector(selectFilterStatus);
 
   const data =
     walletsFiltred.length > 0
@@ -29,24 +35,82 @@ const Board = () => {
       ? walletsSorted
       : wallets;
 
-  const filterBoard = (wallets, walletsFilterString) => {
-    const filterQuery = {
-      address: walletsFilterString,
-      balance: walletsFilterString,
-      create_time: walletsFilterString,
-      latest_opration_time: walletsFilterString,
-    };
+  // const newData = walletsFilterStatus
+  //   ? walletsFiltred
+  //   : walletsSorted.length > 0
+  //   ? walletsSorted
+  //   : wallets;
 
-    const filtredWallets = wallets.filter((item) =>
-      Object.keys(filterQuery).every((key) => item[key] === filterQuery[key])
-    );
-    console.log(filtredWallets);
+  const newData =
+    walletsSorted.length > 0
+      ? walletsSorted
+      : walletsFilterStatus
+      ? walletsFiltred
+      : wallets;
+
+  console.log(newData);
+  // console.log(walletsFiltred);
+  console.log(walletsSorted);
+  // console.log(wallets);
+  // console.log(walletsFilterStatus);
+
+  const filterBoard = (wallets, inputValue) => {
+    dispatch(setSortedData([]));
+
+    if (inputValue.length > 0) {
+      dispatch(setFilterStatusTrue());
+    } else {
+      dispatch(setFilterStatusFalse());
+    }
+
+    let filtredWallets = [];
+
+    wallets.map((wallet) => {
+      let address = wallet.address;
+      let balance = wallet.balance;
+      let create_time = wallet.create_time;
+      let latest_opration_time = wallet.latest_opration_time;
+
+      if (typeof address !== "string") {
+        address = " ";
+      }
+
+      if (typeof balance !== "number") {
+        balance = "none";
+      }
+
+      if (typeof create_time !== "number") {
+        create_time = "none";
+      }
+
+      if (typeof latest_opration_time !== "number") {
+        latest_opration_time = "none";
+      }
+
+      const ballanceIncluded = balance.toString().includes(inputValue);
+      const addressIncluded = address.toString().includes(inputValue);
+      const create_timeIncluded = create_time.toString().includes(inputValue);
+      const latest_opration_timeIncluded = latest_opration_time
+        .toString()
+        .includes(inputValue);
+
+      const IncludedTrue =
+        ballanceIncluded ||
+        addressIncluded ||
+        create_timeIncluded ||
+        latest_opration_timeIncluded;
+
+      if (IncludedTrue) {
+        filtredWallets.push(wallet);
+      }
+    });
+
+    dispatch(setFilterData(filtredWallets));
   };
 
-  filterBoard(wallets, walletsFilterString);
-
   const CreateAddressesRows = () =>
-    data.map((item) => {
+    // data.map((item) => {
+    newData.map((item) => {
       const propsArray = [
         `${item.address ? item.address : "unnown"}`,
         `${item.balance ? item.balance : "unnown"}`,
@@ -64,13 +128,13 @@ const Board = () => {
     });
 
   const handleChange = (e) => {
-    if (e.target.value.length > 0) {
-      console.log("zmieniam");
-      console.log(walletsFilterString);
-    } else {
-      console.log("nie zmieniam");
-      console.log(walletsFilterString);
-    }
+    // console.log(e.target.value);
+    filterBoard(wallets, e.target.value);
+    // console.log(walletsFilterString);
+
+    //  else {
+    //   setInputValue(e.target.value);
+    // }
   };
 
   return walletsAllStatus === "succeded" ? (
