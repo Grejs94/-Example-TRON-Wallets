@@ -5,7 +5,13 @@ import * as reducers from "features/addresses/addressesSlice";
 export const addressesSlice = createSlice({
   name: "addresses",
   initialState: {
-    addresses: [],
+    addresses: [
+      { address: "TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK", id: 0 },
+      { address: "TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws", id: 1 },
+      { address: "TN1nWMYqhnqrBXPMH1ECYouVaafRkYxhNb", id: 2 },
+      { address: "TCFQhzJgXJnn56sqJV38H8c5YAwELZugvz", id: 3 },
+      { address: "TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg", id: 4 },
+    ],
     message: "",
     validatedSuccess: true,
   },
