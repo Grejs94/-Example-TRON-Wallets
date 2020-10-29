@@ -3,7 +3,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  filterStatus,
   selectWallets,
+  selectFilterStatus,
   setSortedData,
   selectWalletsFilterData,
   selectSortedAscending,
@@ -17,9 +19,9 @@ const Row = ({ variant, propsArray = [] }) => {
   const filtredData = useSelector(selectWalletsFilterData);
   const sortedAscending = useSelector(selectSortedAscending);
   const dispatch = useDispatch();
+  const walletsFilterStatus = useSelector(selectFilterStatus);
 
-  const objectsList = filtredData.length > 0 ? filtredData : data;
-
+  const objectsList = walletsFilterStatus ? filtredData : data;
   // TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK
   // TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws
   // TN1nWMYqhnqrBXPMH1ECYouVaafRkYxhNb
@@ -27,7 +29,7 @@ const Row = ({ variant, propsArray = [] }) => {
   // TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg
 
   const sortWalletsByLatestOprationTime = (objectsList, sortedAscending) => {
-    const sorted = [...data].sort((a, b) => {
+    const sorted = [...objectsList].sort((a, b) => {
       let fa = a.latest_opration_time;
       let fb = b.latest_opration_time;
 
@@ -54,7 +56,7 @@ const Row = ({ variant, propsArray = [] }) => {
   };
 
   const sortWalletsByCreateTime = (objectsList, sortedAscending) => {
-    const sorted = [...data].sort((a, b) => {
+    const sorted = [...objectsList].sort((a, b) => {
       let fa = a.create_time;
       console.log();
       let fb = b.create_time;
@@ -82,7 +84,7 @@ const Row = ({ variant, propsArray = [] }) => {
   };
 
   const sortWalletsByBalance = (objectsList, sortedAscending) => {
-    const sorted = [...data].sort((a, b) => {
+    const sorted = [...objectsList].sort((a, b) => {
       let fa = a.balance;
       let fb = b.balance;
 
@@ -94,22 +96,18 @@ const Row = ({ variant, propsArray = [] }) => {
         fb = 1;
       }
 
-      console.log(fa);
-      console.log(fb);
-
       if (sortedAscending) {
         return fa - fb;
       } else {
         return fb - fa;
       }
     });
-    console.log(sorted);
     dispatch(setSortedData(sorted));
     dispatch(toggleSortedAscending());
   };
 
   const sortWalletsByAddresses = (objectsList, sortedAscending) => {
-    const sorted = [...data].sort((a, b) => {
+    const sorted = [...objectsList].sort((a, b) => {
       let fa = a.address.toLowerCase();
       let fb = b.address.toLowerCase();
 
