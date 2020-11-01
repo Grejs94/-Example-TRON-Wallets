@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 import API from "API";
 
-import * as Styles from "./styles";
+import { styledComponents as Styles, useStyles } from "./styles";
 import {
   selectValidatedSuccess,
   selectMessage,
@@ -27,6 +28,7 @@ const FormComponent = () => {
   const message = useSelector(selectMessage);
   const validatedStatus = useSelector(selectValidatedSuccess);
   const addresses = useSelector(selectAddresses);
+  const classes = useStyles();
 
   const handleFetchWallets = (addresses) => {
     if (addresses.length < 1) {
@@ -83,8 +85,11 @@ const FormComponent = () => {
             <Field name="address">
               {({ input, meta }) => (
                 <>
-                  <Styles.Input
-                    type="text"
+                  <TextField
+                    className={classes.margin}
+                    id="standard-search"
+                    label="Enter Adresses"
+                    type="search"
                     {...input}
                     placeholder="Enter address"
                   />
@@ -93,13 +98,23 @@ const FormComponent = () => {
               )}
             </Field>
 
-            <Styles.Button type="submit">Add address</Styles.Button>
-            <Styles.Button
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.margin}
+            >
+              Add address
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
               type="button"
               onClick={() => handleFetchWallets(addresses)}
+              className={classes.margin}
             >
               Generate board
-            </Styles.Button>
+            </Button>
           </Styles.FormContainer>
           <Styles.ValidationContainer>
             <Styles.ValidationMessage
