@@ -6,11 +6,7 @@ import { Row } from "./components";
 import * as Styles from "./styles";
 import {
   setSortedData,
-  selectWallets,
-  selectWalletsSortedData,
-  selectWalletsFilterData,
-  selectWalletsAllStatus,
-  selectFilterStatus,
+  selectWalletsAll,
   setFilterStatusTrue,
   setFilterStatusFalse,
   setFilterData,
@@ -18,21 +14,17 @@ import {
 
 const Board = () => {
   const dispatch = useDispatch();
-  const walletsAllStatus = useSelector(selectWalletsAllStatus);
 
-  const wallets = useSelector(selectWallets);
-  const walletsSorted = useSelector(selectWalletsSortedData);
-  const walletsFiltred = useSelector(selectWalletsFilterData);
-  const walletsFilterStatus = useSelector(selectFilterStatus);
+  const walletsAll = useSelector(selectWalletsAll);
 
   const data =
-    walletsSorted.length > 0
-      ? walletsSorted
-      : walletsFilterStatus
-      ? walletsFiltred
-      : wallets;
+    walletsAll.sorted.length > 0
+      ? walletsAll.sorted
+      : walletsAll.filterStatus
+      ? walletsAll.filter
+      : walletsAll.data;
 
-  const filterBoard = (wallets, inputValue) => {
+  const filterBoard = (walletsAll, inputValue) => {
     dispatch(setSortedData([]));
 
     if (inputValue.length > 0) {
@@ -43,7 +35,7 @@ const Board = () => {
 
     let filtredWallets = [];
 
-    wallets.forEach((wallet) => {
+    walletsAll.forEach((wallet) => {
       let address = wallet.address;
       let balance = wallet.balance;
       let create_time = wallet.create_time;
@@ -105,15 +97,14 @@ const Board = () => {
     });
 
   const handleChange = (e) => {
-    filterBoard(wallets, e.target.value);
+    filterBoard(walletsAll.data, e.target.value);
   };
 
-  return walletsAllStatus === "succeded" ? (
+  return walletsAll.allstatus === "succeded" ? (
     <Styles.Wrapper>
       <Styles.Title>Board</Styles.Title>
       <div>
         <TextField
-          placeholder="Enter address"
           type="search"
           placeholder="filter wallets"
           onChange={handleChange}

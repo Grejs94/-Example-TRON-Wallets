@@ -1,6 +1,11 @@
 import React from "react";
 
-import { AddressContainer, FormComponent, Board } from "components";
+import {
+  AddressContainer,
+  FormComponent,
+  Board,
+  CorrectAddresses,
+} from "components";
 
 import * as Styles from "./styles";
 
@@ -10,6 +15,7 @@ function App() {
       <Board />
       <FormComponent />
       <AddressContainer />
+      <CorrectAddresses />
     </Styles.Wrapper>
   );
 }
