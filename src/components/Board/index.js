@@ -25,9 +25,11 @@ const Board = () => {
       : walletsAll.data;
 
   const filterBoard = (walletsAll, inputValue) => {
+    const inputV = inputValue.toLowerCase();
+
     dispatch(setSortedData([]));
 
-    if (inputValue.length > 0) {
+    if (inputV.length > 0) {
       dispatch(setFilterStatusTrue());
     } else {
       dispatch(setFilterStatusFalse());
@@ -42,7 +44,7 @@ const Board = () => {
       let latest_opration_time = wallet.latest_opration_time;
 
       if (typeof address !== "string") {
-        address = " ";
+        address = "none";
       }
 
       if (typeof balance !== "number") {
@@ -57,12 +59,12 @@ const Board = () => {
         latest_opration_time = "none";
       }
 
-      const ballanceIncluded = balance.toString().includes(inputValue);
-      const addressIncluded = address.toString().includes(inputValue);
-      const create_timeIncluded = create_time.toString().includes(inputValue);
+      const ballanceIncluded = balance.toString().includes(inputV);
+      const addressIncluded = address.toString().toLowerCase().includes(inputV);
+      const create_timeIncluded = create_time.toString().includes(inputV);
       const latest_opration_timeIncluded = latest_opration_time
         .toString()
-        .includes(inputValue);
+        .includes(inputV);
 
       const IncludedTrue =
         ballanceIncluded ||
@@ -100,7 +102,7 @@ const Board = () => {
     filterBoard(walletsAll.data, e.target.value);
   };
 
-  return walletsAll.allstatus === "succeded" ? (
+  return walletsAll.status === "succeded" ? (
     <Styles.Wrapper>
       <Styles.Title>Board</Styles.Title>
       <div>

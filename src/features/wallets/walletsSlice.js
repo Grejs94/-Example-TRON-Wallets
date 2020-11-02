@@ -40,7 +40,7 @@ export const walletsSlice = createSlice({
       state.sorted = action.payload;
     },
     setFilterData: (state, action) => {
-      state.filterData = action.payload;
+      state.filter = action.payload;
     },
     setFilterStatusTrue: (state) => {
       state.filterStatus = true;
@@ -68,7 +68,7 @@ export const {
 export const fetchAllWallets = (addresses) => async (dispatch) => {
   dispatch(clearData());
 
-  addresses.map((address) => {
+  addresses.forEach((address) => {
     dispatch(Wallet.fetchSingleWallet(address));
   });
 };
