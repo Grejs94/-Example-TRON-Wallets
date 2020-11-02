@@ -80,6 +80,7 @@ const FormComponent = () => {
               {({ input, meta }) => (
                 <>
                   <TextField
+                    size="small"
                     className={classes.margin}
                     id="standard-search"
                     label="Enter Adresses"
@@ -93,6 +94,7 @@ const FormComponent = () => {
             </Field>
 
             <Button
+              size="small"
               variant="contained"
               color="primary"
               type="submit"
@@ -101,6 +103,7 @@ const FormComponent = () => {
               Add address
             </Button>
             <Button
+              size="small"
               variant="contained"
               color="primary"
               type="button"
