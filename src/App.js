@@ -3,7 +3,6 @@ import React from "react";
 import {
   AddressContainer,
   FormComponent,
-  Board,
   CorrectAddresses,
   Board_new,
 } from "components";
@@ -14,7 +13,6 @@ function App() {
   return (
     <Styles.Wrapper className="App">
       <Board_new />
-      <Board />
       <FormComponent />
       <AddressContainer />
       <CorrectAddresses />

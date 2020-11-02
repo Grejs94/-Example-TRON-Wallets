@@ -1,33 +1,27 @@
-import namor from "namor";
+const newWallet = (wallet) => {
+  let address = `${wallet.address ? wallet.address : "unnown"}`;
+  let balance = `${wallet.balance ? wallet.balance : "unnown"}`;
+  let create_time = `${wallet.create_time ? wallet.create_time : "unnown"}`;
+  let latest_opration_time = `${
+    wallet.latest_opration_time ? wallet.latest_opration_time : "unnown"
+  }`;
 
-const range = (len) => {
-  const arr = [];
-  for (let i = 0; i < len; i++) {
-    arr.push(i);
-  }
-  return arr;
-};
-
-const newPerson = () => {
-  const statusChance = Math.random();
   return {
-    address: namor.generate({ words: 1, numbers: 0 }),
-    balance: namor.generate({ words: 1, numbers: 0 }),
-    create_time: Math.floor(Math.random() * 30),
-    latest_opration_time: Math.floor(Math.random() * 100),
+    address: address,
+    balance: balance,
+    create_time: create_time,
+    latest_opration_time: latest_opration_time,
   };
 };
 
-export default function makeData(...lens) {
-  const makeDataLevel = (depth = 0) => {
-    const len = lens[depth];
-    return range(len).map((d) => {
+export default function makeData(wallets) {
+  const makeDataLevel = (wallets) => {
+    return wallets.map((wallet) => {
       return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+        ...newWallet(wallet),
       };
     });
   };
 
-  return makeDataLevel();
+  return makeDataLevel(wallets);
 }
