@@ -6,11 +6,7 @@ import { Row } from "./components";
 import * as Styles from "./styles";
 import {
   setSortedData,
-  selectWallets,
-  selectWalletsSortedData,
-  selectWalletsFilterData,
-  selectWalletsAllStatus,
-  selectFilterStatus,
+  selectWalletsAll,
   setFilterStatusTrue,
   setFilterStatusFalse,
   setFilterData,
@@ -18,24 +14,22 @@ import {
 
 const Board = () => {
   const dispatch = useDispatch();
-  const walletsAllStatus = useSelector(selectWalletsAllStatus);
 
-  const wallets = useSelector(selectWallets);
-  const walletsSorted = useSelector(selectWalletsSortedData);
-  const walletsFiltred = useSelector(selectWalletsFilterData);
-  const walletsFilterStatus = useSelector(selectFilterStatus);
+  const walletsAll = useSelector(selectWalletsAll);
 
   const data =
-    walletsSorted.length > 0
-      ? walletsSorted
-      : walletsFilterStatus
-      ? walletsFiltred
-      : wallets;
+    walletsAll.sorted.length > 0
+      ? walletsAll.sorted
+      : walletsAll.filterStatus
+      ? walletsAll.filter
+      : walletsAll.data;
 
-  const filterBoard = (wallets, inputValue) => {
+  const filterBoard = (walletsAll, inputValue) => {
+    const inputV = inputValue.toLowerCase();
+
     dispatch(setSortedData([]));
 
-    if (inputValue.length > 0) {
+    if (inputV.length > 0) {
       dispatch(setFilterStatusTrue());
     } else {
       dispatch(setFilterStatusFalse());
@@ -43,14 +37,14 @@ const Board = () => {
 
     let filtredWallets = [];
 
-    wallets.forEach((wallet) => {
+    walletsAll.forEach((wallet) => {
       let address = wallet.address;
       let balance = wallet.balance;
       let create_time = wallet.create_time;
       let latest_opration_time = wallet.latest_opration_time;
 
       if (typeof address !== "string") {
-        address = " ";
+        address = "none";
       }
 
       if (typeof balance !== "number") {
@@ -65,12 +59,12 @@ const Board = () => {
         latest_opration_time = "none";
       }
 
-      const ballanceIncluded = balance.toString().includes(inputValue);
-      const addressIncluded = address.toString().includes(inputValue);
-      const create_timeIncluded = create_time.toString().includes(inputValue);
+      const ballanceIncluded = balance.toString().includes(inputV);
+      const addressIncluded = address.toString().toLowerCase().includes(inputV);
+      const create_timeIncluded = create_time.toString().includes(inputV);
       const latest_opration_timeIncluded = latest_opration_time
         .toString()
-        .includes(inputValue);
+        .includes(inputV);
 
       const IncludedTrue =
         ballanceIncluded ||
@@ -105,15 +99,14 @@ const Board = () => {
     });
 
   const handleChange = (e) => {
-    filterBoard(wallets, e.target.value);
+    filterBoard(walletsAll.data, e.target.value);
   };
 
-  return walletsAllStatus === "succeded" ? (
+  return walletsAll.status === "succeded" ? (
     <Styles.Wrapper>
       <Styles.Title>Board</Styles.Title>
       <div>
         <TextField
-          placeholder="Enter address"
           type="search"
           placeholder="filter wallets"
           onChange={handleChange}

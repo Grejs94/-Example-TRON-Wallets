@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 import Button from "@material-ui/core/Button";
@@ -11,11 +11,11 @@ import {
   selectValidatedSuccess,
   selectMessage,
   selectAddresses,
-  addAddress,
   setMessageSuccess,
   setMessageFailed,
   setMessagerepeats,
   setMessageAddAddresses,
+  addAddress,
 } from "features/addresses/addressesSlice";
 import {
   fetchAllWallets,
@@ -23,8 +23,8 @@ import {
 } from "features/wallets/walletsSlice";
 
 const FormComponent = () => {
-  const [id, setId] = useState(0);
   const dispatch = useDispatch();
+
   const message = useSelector(selectMessage);
   const validatedStatus = useSelector(selectValidatedSuccess);
   const addresses = useSelector(selectAddresses);
@@ -39,33 +39,28 @@ const FormComponent = () => {
     }
   };
 
-  const validateAddress = async (values) => {
+  const onSubmit = async (values) => {
     const wallet = await API.wallet.fetchWallet(values.address);
-    if (wallet.create_time) {
-      let walletAllreadyAdded = false;
-      const workingAddresses = addresses;
-      workingAddresses.forEach((element) => {
-        if (element.address === wallet.address) {
-          walletAllreadyAdded = true;
-        }
-      });
 
-      if (walletAllreadyAdded) {
-        dispatch(setMessagerepeats());
-      } else {
-        const newValues = { ...values, id };
-        dispatch(setMessageSuccess());
-        dispatch(addAddress(newValues));
-        setId(id + 1);
-      }
-    } else {
+    if (!wallet.create_time) {
       dispatch(setMessageFailed());
+      return;
     }
-  };
 
-  const onSubmit = (values) => {
-    if (values.address) {
-      validateAddress(values);
+    let walletAllreadyAdded = false;
+
+    addresses.forEach((element) => {
+      if (element === wallet.address) {
+        walletAllreadyAdded = true;
+      }
+    });
+
+    if (walletAllreadyAdded) {
+      dispatch(setMessagerepeats());
+      return;
+    } else {
+      dispatch(addAddress(values.address));
+      dispatch(setMessageSuccess());
     }
   };
 
@@ -78,7 +73,6 @@ const FormComponent = () => {
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
-            form.reset();
           }}
         >
           <Styles.FormContainer>
