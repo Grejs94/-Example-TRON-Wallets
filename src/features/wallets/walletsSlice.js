@@ -7,8 +7,7 @@ import * as Wallet from "features/wallets/walletsSlice";
 export const walletsSlice = createSlice({
   name: "wallets",
   initialState: {
-    allstatus: "iddle",
-    singlestatus: "iddle",
+    status: "iddle",
     filterStatus: false,
     data: [],
     sorted: [],
@@ -22,32 +21,20 @@ export const walletsSlice = createSlice({
     clearData: (state) => {
       state.data = [];
     },
+    setData: (state, action) => {
+      state.data = [...state.data, action.payload];
+    },
     clearSortedData: (state) => {
       state.sorted = [];
     },
-    fetchAllStarted: (state) => {
-      state.allstatus = "inProgress";
+    fetchStarted: (state) => {
+      state.status = "inProgress";
     },
-    fetchSingleWalletStarted: (state) => {
-      state.singlestatus = "inProgress";
+    fetchSucceded: (state) => {
+      state.status = "succeded";
     },
-    fetchSingleSucceded: (state, action) => {
-      let newData = state.data;
-      newData.push(action.payload);
-      state.data = newData;
-      state.singlestatus = "succeded";
-    },
-    fetchAllSucceded: (state) => {
-      state.allstatus = "succeded";
-    },
-    fetchSingleFailed: (state) => {
-      state.singlestatus = "failed";
-    },
-    fetchAllFailed: (state) => {
-      state.allstatus = "failed";
-    },
-    setData: (state, action) => {
-      state.data = action.payload;
+    fetchFailed: (state) => {
+      state.status = "failed";
     },
     setSortedData: (state, action) => {
       state.sorted = action.payload;
@@ -68,12 +55,9 @@ export const {
   setData,
   clearData,
   clearSortedData,
-  fetchAllStarted,
-  fetchSingleWalletStarted,
-  fetchAllSucceded,
-  fetchSingleSucceded,
-  fetchAllFailed,
-  fetchSingleFailed,
+  fetchStarted,
+  fetchSucceded,
+  fetchFailed,
   setSortedData,
   setFilterStatusTrue,
   setFilterStatusFalse,
@@ -83,23 +67,20 @@ export const {
 
 export const fetchAllWallets = (addresses) => async (dispatch) => {
   dispatch(clearData());
-  dispatch(fetchAllStarted());
 
-  addresses.forEach((address) => {
+  addresses.map((address) => {
     dispatch(Wallet.fetchSingleWallet(address));
   });
-
-  dispatch(fetchAllSucceded());
 };
 
 export const fetchSingleWallet = (wallet) => async (dispatch) => {
-  dispatch(fetchSingleWalletStarted());
+  dispatch(fetchStarted());
   try {
     const data = await API.wallet.fetchWallet(wallet);
-    dispatch(fetchSingleSucceded(data));
+    dispatch(setData(data));
+    dispatch(fetchSucceded());
   } catch (error) {
-    dispatch(fetchSingleFailed());
-    dispatch(fetchAllFailed());
+    dispatch(fetchFailed());
   }
 };
 

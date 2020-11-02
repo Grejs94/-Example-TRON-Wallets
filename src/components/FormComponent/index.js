@@ -15,6 +15,7 @@ import {
   setMessageFailed,
   setMessagerepeats,
   setMessageAddAddresses,
+  addAddress,
 } from "features/addresses/addressesSlice";
 import {
   fetchAllWallets,
@@ -23,6 +24,7 @@ import {
 
 const FormComponent = () => {
   const dispatch = useDispatch();
+
   const message = useSelector(selectMessage);
   const validatedStatus = useSelector(selectValidatedSuccess);
   const addresses = useSelector(selectAddresses);
@@ -45,7 +47,8 @@ const FormComponent = () => {
       return;
     }
 
-    let walletAllreadyAdded;
+    let walletAllreadyAdded = false;
+
     addresses.forEach((element) => {
       if (element === wallet.address) {
         walletAllreadyAdded = true;
@@ -56,6 +59,7 @@ const FormComponent = () => {
       dispatch(setMessagerepeats());
       return;
     } else {
+      dispatch(addAddress(values.address));
       dispatch(setMessageSuccess());
     }
   };
