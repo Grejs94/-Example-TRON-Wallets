@@ -8,21 +8,20 @@ import {
   setAddresses,
 } from "features/addresses/addressesSlice";
 
-const Address = ({ children, id }) => {
-  const addressesArray = useSelector(selectAddresses);
+const Address = ({ children, item }) => {
   const dispatch = useDispatch();
+  const addressesArray = useSelector(selectAddresses);
 
-  const handleClick = (id) => {
-    let workingAddressesArray = addressesArray;
-    workingAddressesArray = workingAddressesArray.filter(
-      (address) => address.id !== id
+  const handleClick = (item) => {
+    const newAddressesArray = [...addressesArray].filter(
+      (element) => element !== item
     );
-    dispatch(setAddresses(workingAddressesArray));
+    dispatch(setAddresses(newAddressesArray));
   };
 
   return (
     <Styles.Div>
-      <Styles.ClosingIcon onClick={() => handleClick(id)}>
+      <Styles.ClosingIcon onClick={() => handleClick(item)}>
         &#10005;
       </Styles.ClosingIcon>
       {children}

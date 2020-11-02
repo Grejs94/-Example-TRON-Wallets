@@ -3,30 +3,18 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  filterStatus,
-  selectWallets,
-  selectFilterStatus,
+  selectWalletsAll,
   setSortedData,
-  selectWalletsFilterData,
-  selectSortedAscending,
   toggleSortedAscending,
 } from "features/wallets/walletsSlice";
 import * as Styles from "./styles";
 import { SortIcon } from "./components";
 
 const Row = ({ variant, propsArray = [] }) => {
-  const data = useSelector(selectWallets);
-  const filtredData = useSelector(selectWalletsFilterData);
-  const sortedAscending = useSelector(selectSortedAscending);
   const dispatch = useDispatch();
-  const walletsFilterStatus = useSelector(selectFilterStatus);
+  const wallets = useSelector(selectWalletsAll);
 
-  const objectsList = walletsFilterStatus ? filtredData : data;
-  // TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK
-  // TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws
-  // TN1nWMYqhnqrBXPMH1ECYouVaafRkYxhNb
-  // TCFQhzJgXJnn56sqJV38H8c5YAwELZugvz
-  // TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg
+  const objectsList = wallets.filterStatus ? wallets.filter : wallets.data;
 
   const sortWalletsByLatestOprationTime = (objectsList, sortedAscending) => {
     const sorted = [...objectsList].sort((a, b) => {
@@ -41,16 +29,12 @@ const Row = ({ variant, propsArray = [] }) => {
         fb = 1;
       }
 
-      console.log(fa);
-      console.log(fb);
-
       if (sortedAscending) {
         return fa - fb;
       } else {
         return fb - fa;
       }
     });
-    console.log(sorted);
     dispatch(setSortedData(sorted));
     dispatch(toggleSortedAscending());
   };
@@ -58,7 +42,6 @@ const Row = ({ variant, propsArray = [] }) => {
   const sortWalletsByCreateTime = (objectsList, sortedAscending) => {
     const sorted = [...objectsList].sort((a, b) => {
       let fa = a.create_time;
-      console.log();
       let fb = b.create_time;
 
       if (typeof fa !== "number") {
@@ -69,16 +52,12 @@ const Row = ({ variant, propsArray = [] }) => {
         fb = 1;
       }
 
-      console.log(fa);
-      console.log(fb);
-
       if (sortedAscending) {
         return fa - fb;
       } else {
         return fb - fa;
       }
     });
-    console.log(sorted);
     dispatch(setSortedData(sorted));
     dispatch(toggleSortedAscending());
   };
@@ -129,7 +108,6 @@ const Row = ({ variant, propsArray = [] }) => {
 
       return 0;
     });
-    console.log(sorted);
     dispatch(setSortedData(sorted));
     dispatch(toggleSortedAscending());
   };
@@ -137,29 +115,29 @@ const Row = ({ variant, propsArray = [] }) => {
   const arrayOfHandleClicks = [
     {
       handleClick: () => {
-        if (data.length > 1) {
-          sortWalletsByAddresses(objectsList, sortedAscending);
+        if (wallets.data.length > 1) {
+          sortWalletsByAddresses(objectsList, wallets.sortedAscending);
         }
       },
     },
     {
       handleClick: () => {
-        if (data.length > 1) {
-          sortWalletsByBalance(objectsList, sortedAscending);
+        if (wallets.data.length > 1) {
+          sortWalletsByBalance(objectsList, wallets.sortedAscending);
         }
       },
     },
     {
       handleClick: () => {
-        if (data.length > 1) {
-          sortWalletsByCreateTime(objectsList, sortedAscending);
+        if (wallets.data.length > 1) {
+          sortWalletsByCreateTime(objectsList, wallets.sortedAscending);
         }
       },
     },
     {
       handleClick: () => {
-        if (data.length > 1) {
-          sortWalletsByLatestOprationTime(objectsList, sortedAscending);
+        if (wallets.data.length > 1) {
+          sortWalletsByLatestOprationTime(objectsList, wallets.sortedAscending);
         }
       },
     },

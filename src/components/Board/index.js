@@ -1,63 +1,35 @@
-import React, { useState } from "react";
-
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import TextField from "@material-ui/core/TextField";
 
 import { Row } from "./components";
 import * as Styles from "./styles";
 import {
-  setData,
   setSortedData,
-  selectWallets,
-  selectWalletsSortedData,
-  selectWalletsFilterData,
-  selectWalletsAllStatus,
-  selectFilterStatus,
+  selectWalletsAll,
   setFilterStatusTrue,
   setFilterStatusFalse,
   setFilterData,
 } from "features/wallets/walletsSlice";
 
 const Board = () => {
-  const [inputValue, setInputValue] = useState("");
-
   const dispatch = useDispatch();
-  const walletsAllStatus = useSelector(selectWalletsAllStatus);
 
-  const wallets = useSelector(selectWallets);
-  const walletsSorted = useSelector(selectWalletsSortedData);
-  const walletsFiltred = useSelector(selectWalletsFilterData);
-  const walletsFilterStatus = useSelector(selectFilterStatus);
+  const walletsAll = useSelector(selectWalletsAll);
 
   const data =
-    walletsFiltred.length > 0
-      ? walletsFiltred
-      : walletsSorted.length > 0
-      ? walletsSorted
-      : wallets;
+    walletsAll.sorted.length > 0
+      ? walletsAll.sorted
+      : walletsAll.filterStatus
+      ? walletsAll.filter
+      : walletsAll.data;
 
-  // const newData = walletsFilterStatus
-  //   ? walletsFiltred
-  //   : walletsSorted.length > 0
-  //   ? walletsSorted
-  //   : wallets;
+  const filterBoard = (walletsAll, inputValue) => {
+    const inputV = inputValue.toLowerCase();
 
-  const newData =
-    walletsSorted.length > 0
-      ? walletsSorted
-      : walletsFilterStatus
-      ? walletsFiltred
-      : wallets;
-
-  console.log(newData);
-  // console.log(walletsFiltred);
-  console.log(walletsSorted);
-  // console.log(wallets);
-  // console.log(walletsFilterStatus);
-
-  const filterBoard = (wallets, inputValue) => {
     dispatch(setSortedData([]));
 
-    if (inputValue.length > 0) {
+    if (inputV.length > 0) {
       dispatch(setFilterStatusTrue());
     } else {
       dispatch(setFilterStatusFalse());
@@ -65,14 +37,14 @@ const Board = () => {
 
     let filtredWallets = [];
 
-    wallets.map((wallet) => {
+    walletsAll.forEach((wallet) => {
       let address = wallet.address;
       let balance = wallet.balance;
       let create_time = wallet.create_time;
       let latest_opration_time = wallet.latest_opration_time;
 
       if (typeof address !== "string") {
-        address = " ";
+        address = "none";
       }
 
       if (typeof balance !== "number") {
@@ -87,12 +59,12 @@ const Board = () => {
         latest_opration_time = "none";
       }
 
-      const ballanceIncluded = balance.toString().includes(inputValue);
-      const addressIncluded = address.toString().includes(inputValue);
-      const create_timeIncluded = create_time.toString().includes(inputValue);
+      const ballanceIncluded = balance.toString().includes(inputV);
+      const addressIncluded = address.toString().toLowerCase().includes(inputV);
+      const create_timeIncluded = create_time.toString().includes(inputV);
       const latest_opration_timeIncluded = latest_opration_time
         .toString()
-        .includes(inputValue);
+        .includes(inputV);
 
       const IncludedTrue =
         ballanceIncluded ||
@@ -109,8 +81,7 @@ const Board = () => {
   };
 
   const CreateAddressesRows = () =>
-    // data.map((item) => {
-    newData.map((item) => {
+    data.map((item) => {
       const propsArray = [
         `${item.address ? item.address : "unnown"}`,
         `${item.balance ? item.balance : "unnown"}`,
@@ -128,20 +99,18 @@ const Board = () => {
     });
 
   const handleChange = (e) => {
-    // console.log(e.target.value);
-    filterBoard(wallets, e.target.value);
-    // console.log(walletsFilterString);
-
-    //  else {
-    //   setInputValue(e.target.value);
-    // }
+    filterBoard(walletsAll.data, e.target.value);
   };
 
-  return walletsAllStatus === "succeded" ? (
+  return walletsAll.status === "succeded" ? (
     <Styles.Wrapper>
       <Styles.Title>Board</Styles.Title>
       <div>
-        <input placeholder="search" onChange={handleChange} />
+        <TextField
+          type="search"
+          placeholder="filter wallets"
+          onChange={handleChange}
+        />
       </div>
       <Styles.RowsContainer>
         <Row
