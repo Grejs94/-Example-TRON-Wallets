@@ -9,9 +9,11 @@ const AddressContainer = () => {
   const addressesArray = useSelector(selectAddresses);
 
   const createAddressesList = () =>
-    addressesArray.map((item) => {
-      return <Address key={item}>{item}</Address>;
-    });
+    addressesArray.map((item) => (
+      <Address key={item} item={item}>
+        {item}
+      </Address>
+    ));
 
   return (
     <Styles.Wrapper>
