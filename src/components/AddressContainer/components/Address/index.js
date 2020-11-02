@@ -13,7 +13,6 @@ const Address = ({ children, item }) => {
   const addressesArray = useSelector(selectAddresses);
 
   const handleClick = (item) => {
-    console.log(item);
     const newAddressesArray = [...addressesArray].filter(
       (element) => element !== item
     );
