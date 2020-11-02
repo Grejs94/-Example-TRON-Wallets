@@ -8,9 +8,10 @@ import {
   useSortBy,
 } from "react-table";
 import { matchSorter } from "match-sorter";
+import TextField from "@material-ui/core/TextField";
 
 import makeData from "./components/makeData";
-import * as Styles from "./styles";
+import { Styles, useStyles } from "./styles";
 import { selectWalletsAll } from "features/wallets/walletsSlice";
 
 function GlobalFilter({
@@ -18,6 +19,8 @@ function GlobalFilter({
   globalFilter,
   setGlobalFilter,
 }) {
+  const classes = useStyles();
+
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = React.useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
@@ -26,18 +29,14 @@ function GlobalFilter({
 
   return (
     <span>
-      Search:{" "}
-      <input
+      <TextField
         value={value || ""}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`${count} records...`}
-        style={{
-          fontSize: "1.1rem",
-          border: "0",
-        }}
+        placeholder={`filter wallets`}
+        className={classes.margin}
       />
     </span>
   );
@@ -47,14 +46,16 @@ function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }) {
   const count = preFilteredRows.length;
+  const classes = useStyles();
 
   return (
-    <input
+    <TextField
       value={filterValue || ""}
       onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+        setFilter(e.target.value || undefined);
       }}
-      placeholder={`Search ${count} records...`}
+      placeholder={`filter wallets`}
+      className={classes.input}
     />
   );
 }
@@ -116,7 +117,7 @@ function Table({ columns, data }) {
 
   return (
     <>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} style={{ padding: "0px" }}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

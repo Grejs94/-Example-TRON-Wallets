@@ -11,7 +11,7 @@ import * as Styles from "./styles";
 
 function App() {
   return (
-    <Styles.Wrapper className="App">
+    <Styles.Wrapper>
       <Board_new />
       <FormComponent />
       <AddressContainer />

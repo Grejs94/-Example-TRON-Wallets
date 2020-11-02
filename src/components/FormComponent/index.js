@@ -81,7 +81,8 @@ const FormComponent = () => {
                 <>
                   <TextField
                     size="small"
-                    className={classes.margin}
+                    styles={{ fontSize: "35px" }}
+                    className={classes.input}
                     id="standard-search"
                     label="Enter Adresses"
                     type="search"
