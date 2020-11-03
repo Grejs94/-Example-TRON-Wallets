@@ -3,17 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import API from "../../API";
 
 import * as Wallet from "features/wallets/walletsSlice";
-import { clearAddress } from "features/addresses/addressesSlice";
 
 export const walletsSlice = createSlice({
   name: "wallets",
   initialState: {
-    allstatus: "iddle",
-    singlestatus: "iddle",
+    status: "iddle",
     filterStatus: false,
     data: [],
-    sortedData: [],
-    filterData: [],
+    sorted: [],
+    filter: [],
     sortedAscending: true,
   },
   reducers: {
@@ -23,38 +21,26 @@ export const walletsSlice = createSlice({
     clearData: (state) => {
       state.data = [];
     },
-    clearSortedData: (state) => {
-      state.sortedData = [];
-    },
-    fetchAllStarted: (state) => {
-      state.allstatus = "inProgress";
-    },
-    fetchSingleWalletStarted: (state) => {
-      state.singlestatus = "inProgress";
-    },
-    fetchSingleSucceded: (state, action) => {
-      let newData = state.data;
-      newData.push(action.payload);
-      state.data = newData;
-      state.singlestatus = "succeded";
-    },
-    fetchAllSucceded: (state) => {
-      state.allstatus = "succeded";
-    },
-    fetchSingleFailed: (state) => {
-      state.singlestatus = "failed";
-    },
-    fetchAllFailed: (state) => {
-      state.allstatus = "failed";
-    },
     setData: (state, action) => {
-      state.data = action.payload;
+      state.data = [...state.data, action.payload];
+    },
+    clearSortedData: (state) => {
+      state.sorted = [];
+    },
+    fetchStarted: (state) => {
+      state.status = "inProgress";
+    },
+    fetchSucceded: (state) => {
+      state.status = "succeded";
+    },
+    fetchFailed: (state) => {
+      state.status = "failed";
     },
     setSortedData: (state, action) => {
-      state.sortedData = action.payload;
+      state.sorted = action.payload;
     },
     setFilterData: (state, action) => {
-      state.filterData = action.payload;
+      state.filter = action.payload;
     },
     setFilterStatusTrue: (state) => {
       state.filterStatus = true;
@@ -69,12 +55,9 @@ export const {
   setData,
   clearData,
   clearSortedData,
-  fetchAllStarted,
-  fetchSingleWalletStarted,
-  fetchAllSucceded,
-  fetchSingleSucceded,
-  fetchAllFailed,
-  fetchSingleFailed,
+  fetchStarted,
+  fetchSucceded,
+  fetchFailed,
   setSortedData,
   setFilterStatusTrue,
   setFilterStatusFalse,
@@ -83,33 +66,24 @@ export const {
 } = walletsSlice.actions;
 
 export const fetchAllWallets = (addresses) => async (dispatch) => {
-  console.log(addresses);
   dispatch(clearData());
-  dispatch(fetchAllStarted());
 
   addresses.forEach((address) => {
-    dispatch(Wallet.fetchSingleWallet(address.address));
+    dispatch(Wallet.fetchSingleWallet(address));
   });
-
-  dispatch(fetchAllSucceded());
 };
 
 export const fetchSingleWallet = (wallet) => async (dispatch) => {
-  dispatch(fetchSingleWalletStarted());
+  dispatch(fetchStarted());
   try {
     const data = await API.wallet.fetchWallet(wallet);
-    dispatch(fetchSingleSucceded(data));
+    dispatch(setData(data));
+    dispatch(fetchSucceded());
   } catch (error) {
-    dispatch(fetchSingleFailed());
-    dispatch(fetchAllFailed());
+    dispatch(fetchFailed());
   }
 };
 
-export const selectWallets = (state) => state.wallets.data;
-export const selectWalletsSortedData = (state) => state.wallets.sortedData;
-export const selectWalletsFilterData = (state) => state.wallets.filterData;
-export const selectFilterStatus = (state) => state.wallets.filterStatus;
-export const selectWalletsAllStatus = (state) => state.wallets.allstatus;
-export const selectSortedAscending = (state) => state.wallets.sortedAscending;
+export const selectWalletsAll = (state) => state.wallets;
 
 export default walletsSlice.reducer;
