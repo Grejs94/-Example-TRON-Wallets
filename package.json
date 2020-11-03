@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
+    "match-sorter": "^5.0.0",
+    "namor": "^2.0.2",
     "react-query": "^2.23.1",
     "styled-components": "^5.2.0"
   }

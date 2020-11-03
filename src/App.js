@@ -3,16 +3,16 @@ import React from "react";
 import {
   AddressContainer,
   FormComponent,
-  Board,
   CorrectAddresses,
+  Board_new,
 } from "components";
 
 import * as Styles from "./styles";
 
 function App() {
   return (
-    <Styles.Wrapper className="App">
-      <Board />
+    <Styles.Wrapper>
+      <Board_new />
       <FormComponent />
       <AddressContainer />
       <CorrectAddresses />
