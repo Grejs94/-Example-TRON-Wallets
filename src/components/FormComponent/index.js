@@ -81,7 +81,6 @@ const FormComponent = () => {
                 <>
                   <TextField
                     size="small"
-                    styles={{ fontSize: "35px" }}
                     className={classes.input}
                     id="standard-search"
                     label="Enter Adresses"
@@ -99,7 +98,7 @@ const FormComponent = () => {
               variant="contained"
               color="primary"
               type="submit"
-              className={classes.margin}
+              className={(classes.button, classes.button_first)}
             >
               Add address
             </Button>
@@ -109,7 +108,7 @@ const FormComponent = () => {
               color="primary"
               type="button"
               onClick={() => handleFetchWallets(addresses)}
-              className={classes.margin}
+              className={classes.button}
             >
               Generate board
             </Button>

@@ -10,23 +10,22 @@ export const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     marginRight: theme.spacing(0.5),
   },
-  input: {
-    fontSize: "30px !important",
-  },
 }));
 
 const StyledContainer = styled.div`
-  @media (max-width: 700px) {
+  overflow: hidden;
+
+  @media (max-width: 800px) {
     font-size: 12px;
     .MuiInputBase-input {
-      font-size: 12px;
+      font-size: 14px;
+      // background-color: red;
     }
   }
 
   @media (max-width: 600px) {
-    font-size: 8px;
     .MuiInputBase-input {
-      font-size: 8px;
+      margin-top: 10px;
     }
   }
 
@@ -34,10 +33,36 @@ const StyledContainer = styled.div`
     border-spacing: 0;
     border: 1px solid black;
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
+    thead {
+      tr:first-child {
+        th {
+          @media (max-width: 600px) {
+            padding: 0;
+          }
+        }
+
+      }
+
+      
+    }
+
+    
+
+      td:first-child {
+        // background-color: red;
+        overflow: hidden;
+        padding: 0.1rem;
+
+        @media (max-width: 700px) {
+          max-width: 200px;
+        }
+
+        @media (max-width: 500px) {
+          max-width: 140px;
+        }
+
+        @media (max-width: 400px) {
+          max-width: 80px;
         }
       }
     }
@@ -49,18 +74,18 @@ const StyledContainer = styled.div`
       border-bottom: 1px solid black;
       border-right: 1px solid black;
 
+      :last-child {
+        border-right: 0;
+      }
+
       @media (max-width: 500px) {
         max-width: 140px;
         overflow: hidden;
-        padding: 0.1rem;
+        padding: 0;
       }
 
-      @media (max-width: 350px) {
-        max-width: 80px;
-      }
-
-      :last-child {
-        border-right: 0;
+      @media (max-width: 400px) {
+        max-width: 120px;
       }
     }
   }

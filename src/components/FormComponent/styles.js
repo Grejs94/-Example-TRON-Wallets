@@ -5,6 +5,7 @@ import styled from "styled-components";
 export const FormContainer = styled.div`
   display: flex;
   margin-top: 40px;
+  align-items: flex-end;
 `;
 
 export const Input = styled.input``;
@@ -31,10 +32,39 @@ export const styledComponents = {
 };
 
 export const useStyles = makeStyles((theme) => ({
-  margin: {
+  button: {
     margin: theme.spacing(1),
+    marginBottom: 0,
+
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "8px",
+      lineHeight: "15px",
+      margin: "3px 3px 0",
+    },
+  },
+  button_first: {
+    margin: theme.spacing(1),
+    marginBottom: 0,
+
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "8px",
+      lineHeight: "15px",
+      margin: "3px 3px 0 6px",
+    },
   },
   extendedIcon: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
+  },
+  input: {
+    "& .MuiInputBase-input,.MuiInputLabel-animated": {
+      fontSize: "14px",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "8px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "140px",
+        fontSize: "12px",
+      },
+    },
   },
 }));

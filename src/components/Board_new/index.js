@@ -55,7 +55,6 @@ function DefaultColumnFilter({
         setFilter(e.target.value || undefined);
       }}
       placeholder={`filter wallets`}
-      className={classes.input}
     />
   );
 }
@@ -205,7 +204,7 @@ const Board_new = () => {
         accessor: "create_time",
       },
       {
-        Header: "Latest opration time",
+        Header: "L. opr. time",
         accessor: "latest_opration_time",
       },
     ],
