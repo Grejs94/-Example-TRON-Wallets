@@ -3,7 +3,7 @@ import React from "react";
 import * as Styles from "./styles";
 
 const CorrectAddresses = () => {
-  const CreateDevModeAddressesList = () =>
+  const createDevModeAddressesList = () =>
     [
       "TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK",
       "TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws",
@@ -17,7 +17,7 @@ const CorrectAddresses = () => {
   return (
     <div>
       <p>Correct Addresses (dev mode only)</p>
-      {CreateDevModeAddressesList()}
+      {createDevModeAddressesList()}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { selectAddresses } from "features/addresses/addressesSlice";
+
 import { Address } from "./components";
 import * as Styles from "./styles";
-import { selectAddresses } from "features/addresses/addressesSlice";
 
 const AddressContainer = () => {
   const addressesArray = useSelector(selectAddresses);
@@ -17,7 +18,7 @@ const AddressContainer = () => {
 
   return (
     <Styles.Wrapper>
-      <Styles.Title>Adresses:</Styles.Title>
+      <p>Adresses:</p>
       {createAddressesList()}
     </Styles.Wrapper>
   );

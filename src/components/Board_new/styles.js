@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+import { media, css, colors } from "utilis/variables";
 
 export const useStyles = makeStyles((theme) => ({
   margin: {
@@ -13,57 +13,65 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 const StyledContainer = styled.div`
-  overflow: hidden;
+  display: block;
+  max-width: 100%;
 
-  @media (max-width: 800px) {
-    font-size: 12px;
+  .tableWrap {
+    display: block;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border-bottom: 1px solid ${colors.black};
+  }
+
+  ${media.md} {
+    ${css.md_FontSize}
     .MuiInputBase-input {
-      font-size: 14px;
-      // background-color: red;
+      ${css.md_FontSize_text}
     }
   }
 
-  @media (max-width: 600px) {
+  ${media.sm} {
     .MuiInputBase-input {
       margin-top: 10px;
     }
   }
 
+  ${media.xs} {
+    ${css.xs_FontSize_text}
+    .MuiInputBase-input {
+      ${css.xs_FontSize_text}
+    }
+  }
+
   table {
+    width: 100%;
     border-spacing: 0;
-    border: 1px solid black;
+
+    margin: 0 auto;
+    border: 1px solid ${colors.black};
 
     thead {
       tr:first-child {
         th {
-          @media (max-width: 600px) {
-            padding: 0;
+          ${media.sm} {
+            .MuiInputBase-input {
+              padding: 0;
+            }
           }
         }
-
       }
-
-      
     }
 
-    
+    td:first-child {
+      overflow: hidden;
 
-      td:first-child {
-        // background-color: red;
-        overflow: hidden;
-        padding: 0.1rem;
+      ${media.sm} {
+        max-width: 200px;
+      }
 
-        @media (max-width: 700px) {
-          max-width: 200px;
-        }
-
-        @media (max-width: 500px) {
-          max-width: 140px;
-        }
-
-        @media (max-width: 400px) {
-          max-width: 80px;
-        }
+      ${media.xs} {
+        max-width: 100px;
       }
     }
 
@@ -71,21 +79,20 @@ const StyledContainer = styled.div`
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 1px solid ${colors.black};
+      border-right: 1px solid ${colors.black};
+
+      width: 1%;
+      &.collapse {
+        width: 0.0000000001%;
+      }
 
       :last-child {
         border-right: 0;
       }
 
-      @media (max-width: 500px) {
-        max-width: 140px;
-        overflow: hidden;
-        padding: 0;
-      }
-
-      @media (max-width: 400px) {
-        max-width: 120px;
+      ${media.md} {
+        padding: 4px 0 4px 1px;
       }
     }
   }

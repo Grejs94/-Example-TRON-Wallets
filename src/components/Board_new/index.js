@@ -10,9 +10,10 @@ import {
 import { matchSorter } from "match-sorter";
 import TextField from "@material-ui/core/TextField";
 
+import { selectWalletsAll } from "features/wallets/walletsSlice";
+
 import makeData from "./components/makeData";
 import { Styles, useStyles } from "./styles";
-import { selectWalletsAll } from "features/wallets/walletsSlice";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -27,14 +28,16 @@ function GlobalFilter({
     setGlobalFilter(value || undefined);
   }, 200);
 
+  const handleOnChange = (e) => {
+    setValue(e.target.value);
+    onChange(e.target.value);
+  };
+
   return (
     <span>
       <TextField
         value={value || ""}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
+        onChange={handleOnChange}
         placeholder={`filter wallets`}
         className={classes.margin}
       />

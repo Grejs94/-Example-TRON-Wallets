@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Frontend Developer
+Zadanie rekrutacyjne
 
-## Available Scripts
+Poniższe zadanie zostało podzielone na etapy, które należy wykonywać w
+określonej kolejności, co też powinno być odzwierciedlone w historii zmian w
+repozytorium GIT. Każdy punkt z opisanych poniżej, powinien być osobnym
+commitem.
+GitHub
 
-In the project directory, you can run:
+1. Stworzenie na GitHubie nowego projektu: Example TRON Wallets. Projekt
+   powinien być publiczny.
+   React
+1. Stworzenie nowego projektu w oparciu o najnowszą dostępną, stabilną
+   wersję biblioteki React JS.
+1. Stworzenie aplikacji mającej na celu prezentację informacji dowolnej ilości
+   portfeli sieci TRON zawierającej:
+   a. Możliwość dynamicznego dodawania / usuwania dowolnej ilości pól
+   tekstowych zawierających adresy w formacie base58,
+   b. Walidację wprowadzanych danych za pomocą API,
+   c. Przycisk do pobrania danych z API i wyrenderowania tabeli o
+   następujących kolumnach: address, balance, create_time,
+   latest_opration_time,
+   d. Tabela powinna zawierać filtry oraz sortowanie dla każdej z kolumn.
 
-### `npm start`
+www.onemillion.com Strona: 1
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Do wykonania powyższego zadania proszę wykorzystać dostępne
+publicznie API TronGrid.io
+(dokumentacja: https://developers.tron.network/reference)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. Endpoint do pobrania danych o portfelu:
+   https://developers.tron.network/reference#walletgetaccount
+2. Endpoint do walidacji adresu portfela:
+   https://developers.tron.network/reference#walletvalidateaddress
+   Lista portfeli w formacie base58 do wykorzystania:
+   TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK
+   TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws
+   TN1nWMYqhnqrBXPMH1ECYouVaafRkYxhNb
+   TCFQhzJgXJnn56sqJV38H8c5YAwELZugvz
+   TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Wszelkie pytania i wątpliwości można kierować pod adres pwatola@onemillion.com w CC
+dołączając adramska@onemillion.com.
+Link do repozytorium ukończonego zadania prosimy również wysłać via email na powyższe
+adresy.
