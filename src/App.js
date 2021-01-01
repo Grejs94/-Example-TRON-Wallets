@@ -4,7 +4,7 @@ import {
   AddressContainer,
   FormComponent,
   CorrectAddresses,
-  Board_new,
+  Board,
 } from "components";
 
 import * as Styles from "./styles";
@@ -12,7 +12,7 @@ import * as Styles from "./styles";
 function App() {
   return (
     <Styles.Wrapper>
-      <Board_new />
+      <Board />
       <FormComponent />
       <AddressContainer />
       <CorrectAddresses />

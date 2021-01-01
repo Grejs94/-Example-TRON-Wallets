@@ -22,7 +22,6 @@ function GlobalFilter({
 }) {
   const classes = useStyles();
 
-  const count = preGlobalFilteredRows.length;
   const [value, setValue] = React.useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
@@ -48,9 +47,6 @@ function GlobalFilter({
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }) {
-  const count = preFilteredRows.length;
-  const classes = useStyles();
-
   return (
     <TextField
       value={filterValue || ""}
@@ -181,7 +177,7 @@ function filterGreaterThan(rows, id, filterValue) {
 
 filterGreaterThan.autoRemove = (val) => typeof val !== "number";
 
-const Board_new = () => {
+const Board = () => {
   const walletsAll = useSelector(selectWalletsAll);
 
   const wallets =
@@ -227,4 +223,4 @@ const Board_new = () => {
   );
 };
 
-export default Board_new;
+export default Board;
